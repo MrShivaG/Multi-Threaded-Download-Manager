@@ -18,9 +18,11 @@ public class Downloader {
             }     
             in.close();
             out.close();
+            System.out.println("=================================");
             System.out.println("File "+filename +"Downloaded");       
+            System.out.println("=================================");
+            
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e.getMessage());
         }
 
