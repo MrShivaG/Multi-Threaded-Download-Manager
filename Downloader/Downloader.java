@@ -2,6 +2,9 @@ package Downloader;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Downloader {
     public Downloader(String Url){
@@ -9,6 +12,10 @@ public class Downloader {
             URL url=new URL(Url);
             HttpURLConnection conn =(HttpURLConnection) url.openConnection();
             String filename = getFileName(conn, Url);
+            Path path = Paths.get(filename);
+            if (Files.exists(path)) {
+                filename = "copy- "+filename;
+            }
             InputStream in = conn.getInputStream();
             FileOutputStream out = new FileOutputStream(filename);
             byte[] buffer =new byte[8192];
@@ -18,9 +25,9 @@ public class Downloader {
             }     
             in.close();
             out.close();
-            System.out.println("=================================");
-            System.out.println("File "+filename +"Downloaded");       
-            System.out.println("=================================");
+            System.out.println("==========================================================");
+            System.out.println("Note:- File "+filename +" Downloaded");       
+            System.out.println("==========================================================");
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -34,6 +41,9 @@ public class Downloader {
         if (disposition != null && disposition.contains("filename=")) {
             return disposition.split("filename=")[1].replace("\"", "");
         }
+        
+
         return urlStr.substring(urlStr.lastIndexOf("/") + 1);
     }
+    
 }
